@@ -44,20 +44,22 @@ class DynamicArray:
 
 my_array = DynamicArray(3)
 
-my_array.append(5)
-print(my_array.storage)
-my_array.prepend(4)
-print(my_array.storage)
-my_array.insert(0, 5)
-print(my_array.storage)
-my_array.insert(0, 4)
+# my_array.append(5)
+# print(my_array.storage)
+# my_array.prepend(4)
+# print(my_array.storage)
+# my_array.insert(0, 5)
+# print(my_array.storage)
+# my_array.insert(0, 4)
 
 
-my_array.insert(2, 3)
-print(my_array.storage)
+# my_array.insert(2, 3)
+# print(my_array.storage)
 
-my_array.delete(0)
-print(my_array.storage)
+# my_array.delete(0)
+# print(my_array.storage)
 
-my_array.insert(2, 78)
+# my_array.insert(2, 78)
+print(my_array.storage)
+my_array.double_size()
 print(my_array.storage)

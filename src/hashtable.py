@@ -91,8 +91,6 @@ class HashTable:
             self.storage[i] = self.storage[i+1]
         self.count -= 1
         
-
-
     def retrieve(self, key):
         '''
         Retrieve the value stored with the given key.
@@ -112,38 +110,49 @@ class HashTable:
 
         Fill this in.
         '''
-        self.storage *= 2
+        self.capacity *= 2
         new_storage = [None] * self.capacity
         for i in range(self.count):
             new_storage[i] = self.storage[i]
         self.storage = new_storage
 
+hashT = HashTable(2)
+print(hashT.storage)
+hashT.insert("gabba", "haha")
+print(hashT.storage)
+hashT.insert("zylophone", "lol")
+print(hashT.storage)
+print("Key return: ", hashT.retrieve("gabba"))
+print("Key return: ", hashT.retrieve("zylophone"))
+print(hashT.storage)
+hashT.resize()
+print(hashT.storage)
 
 
-if __name__ == "__main__":
-    ht = HashTable(2)
-    print("storage: ", ht.storage)
-    ht.insert("line_1", "Tiny hash table")
-    ht.insert("line_2", "Filled beyond capacity")
-    ht.insert("line_3", "Linked list saves the day!")
+# if __name__ == "__main__":
+#     ht = HashTable(2)
+#     print("storage: ", ht.storage)
+#     ht.insert("line_1", "Tiny hash table")
+#     ht.insert("line_2", "Filled beyond capacity")
+#     ht.insert("line_3", "Linked list saves the day!")
 
-    print("")
+#     print("")
 
-    # Test storing beyond capacity
-    print(ht.retrieve("line_1"))
-    print(ht.retrieve("line_2"))
-    print(ht.retrieve("line_3"))
+#     # Test storing beyond capacity
+#     print(ht.retrieve("line_1"))
+#     print(ht.retrieve("line_2"))
+#     print(ht.retrieve("line_3"))
 
-    # Test resizing
-    old_capacity = len(ht.storage)
-    ht.resize()
-    new_capacity = len(ht.storage)
+#     # Test resizing
+#     old_capacity = len(ht.storage)
+#     ht.resize()
+#     new_capacity = len(ht.storage)
 
-    print(f"\nResized from {old_capacity} to {new_capacity}.\n")
+#     print(f"\nResized from {old_capacity} to {new_capacity}.\n")
 
-    # Test if data intact after resizing
-    print(ht.retrieve("line_1"))
-    print(ht.retrieve("line_2"))
-    print(ht.retrieve("line_3"))
+#     # Test if data intact after resizing
+#     print(ht.retrieve("line_1"))
+#     print(ht.retrieve("line_2"))
+#     print(ht.retrieve("line_3"))
 
-    print("")
+#     print("")
