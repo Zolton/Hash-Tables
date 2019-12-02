@@ -125,9 +125,11 @@ print(hashT.storage)
 print("Key return: ", hashT.retrieve("gabba"))
 print("Key return: ", hashT.retrieve("zylophone"))
 print(hashT.storage)
+print(hashT.storage)
+hashT.remove("gabba")
+print(hashT.storage)
 hashT.resize()
 print(hashT.storage)
-
 
 # if __name__ == "__main__":
 #     ht = HashTable(2)
