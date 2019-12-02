@@ -1,6 +1,7 @@
 # '''
 # Linked List hash table key/value pair
 # '''
+
 class LinkedPair:
     def __init__(self, key, value):
         self.key = key
@@ -13,11 +14,13 @@ class HashTable:
     that accepts string keys
     '''
     def __init__(self, capacity):
+        self.count = 0
         self.capacity = capacity  # Number of buckets in the hash table
         self.storage = [None] * capacity
 
 
     def _hash(self, key):
+         # Use pythons built-in hash function
         '''
         Hash an arbitrary key and return an integer.
 
@@ -25,14 +28,15 @@ class HashTable:
         '''
         return hash(key)
 
+   
 
-    def _hash_djb2(self, key):
-        '''
-        Hash an arbitrary key using DJB2 hash
+    # def _hash_djb2(self, key):
+    #     '''
+    #     Hash an arbitrary key using DJB2 hash
 
-        OPTIONAL STRETCH: Research and implement DJB2
-        '''
-        pass
+    #     OPTIONAL STRETCH: Research and implement DJB2
+    #     '''
+    #     pass
 
 
     def _hash_mod(self, key):
@@ -51,9 +55,24 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        
+        # Hash the key, figure where in the array it should go
+        indexLocation = self._hash_mod(key)
 
+        # If hashTable is full, make it bigger to fit
+        if self.count >= self.capacity:
+            self.resize()
 
+        # If for whatever reason the function tries to insert into
+        # a location outside the current hash table
+        if indexLocation > self.count:
+            print("Out of range")
+            return
+        # With the hashed key as the indexLocation, insert the value
+        for i in range(self.count, indexLocation, -1):
+            self.storage[i] = self.storage[i-1]
+        self.storage[indexLocation] = value
+        self.count += 1
 
     def remove(self, key):
         '''
@@ -63,7 +82,11 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        indexLocation = self._hash_mod(key)
+        for i in range (indexLocation, self.count -1, 1):
+            self.storage[i] = self.storage[i+1]
+        self.count -= 1
+        
 
 
     def retrieve(self, key):
@@ -74,7 +97,8 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        indexLocation = self._hash_mod(key)
+        return self.storage[indexLocation]
 
 
     def resize(self):
@@ -84,7 +108,11 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        self.storage *= 2
+        new_storage = [None] * self.capacity
+        for i in range(self.count):
+            new_storage[i] = self.storage[i]
+        self.storage = new_storage
 
 
 
