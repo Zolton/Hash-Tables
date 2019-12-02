@@ -87,6 +87,9 @@ class HashTable:
         Fill this in.
         '''
         indexLocation = self._hash_mod(key)
+        if not self.storage[indexLocation]:
+            print("Invalid key")
+            return
         for i in range (indexLocation, self.count -1, 1):
             self.storage[i] = self.storage[i+1]
         self.count -= 1
@@ -99,6 +102,10 @@ class HashTable:
 
         Fill this in.
         '''
+        indexLocation = self._hash_mod(key)
+        if not self.storage[indexLocation]:
+            print("No such key")
+            return
         indexLocation = self._hash_mod(key)
         return self.storage[indexLocation]
 
@@ -125,11 +132,12 @@ print(hashT.storage)
 print("Key return: ", hashT.retrieve("gabba"))
 print("Key return: ", hashT.retrieve("zylophone"))
 print(hashT.storage)
-print(hashT.storage)
 hashT.remove("gabba")
 print(hashT.storage)
 hashT.resize()
 print(hashT.storage)
+print("Key return: ", hashT.retrieve("gabba"))
+print("Key return: ", hashT.retrieve("zylophone"))
 
 # if __name__ == "__main__":
 #     ht = HashTable(2)
