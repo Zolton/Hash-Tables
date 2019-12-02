@@ -58,10 +58,14 @@ class HashTable:
         
         # Hash the key, figure where in the array it should go
         indexLocation = self._hash_mod(key)
+        print("IndexLocation: ", indexLocation)
 
         # If hashTable is full, make it bigger to fit
         if self.count >= self.capacity:
-            self.resize()
+            print("Hash Table is too small")
+            return
+            # self.resize()
+            #self.insert(key, value)
 
         # If for whatever reason the function tries to insert into
         # a location outside the current hash table
@@ -118,7 +122,7 @@ class HashTable:
 
 if __name__ == "__main__":
     ht = HashTable(2)
-
+    print("storage: ", ht.storage)
     ht.insert("line_1", "Tiny hash table")
     ht.insert("line_2", "Filled beyond capacity")
     ht.insert("line_3", "Linked list saves the day!")
