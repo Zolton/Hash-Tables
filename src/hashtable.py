@@ -60,23 +60,18 @@ class HashTable:
         indexLocation = self._hash_mod(key)
         print("IndexLocation: ", indexLocation)
 
-        # If hashTable is full, make it bigger to fit
-        if self.count >= self.capacity:
-            print("Hash Table is too small")
-            return
+        if self.storage[indexLocation] is not None:
+            while self.storage[indexLocation].next is not None:
+                if self.storage[indexLocation].next is None:
+                    self.storage[indexLocation].next = LinkedPair(key, value)
+                    return
+                else:
+                    self.storage[indexLocation].next = self.storage[indexLocation].next.next
+            #print(f"Overwriting data at {indexLocation}")
             # self.resize()
-            #self.insert(key, value)
+            # self.insert(key, value)
+        self.storage[indexLocation] = LinkedPair(key, value)
 
-        # If for whatever reason the function tries to insert into
-        # a location outside the current hash table
-        if indexLocation > self.count:
-            print("Out of range")
-            return
-        # With the hashed key as the indexLocation, insert the value
-        for i in range(self.count, indexLocation, -1):
-            self.storage[i] = self.storage[i-1]
-        self.storage[indexLocation] = value
-        self.count += 1
 
     def remove(self, key):
         '''
@@ -87,12 +82,10 @@ class HashTable:
         Fill this in.
         '''
         indexLocation = self._hash_mod(key)
-        if not self.storage[indexLocation]:
+        if self.storage[indexLocation] is None:
             print("Invalid key")
             return
-        for i in range (indexLocation, self.count -1, 1):
-            self.storage[i] = self.storage[i+1]
-        self.count -= 1
+        self.storage[indexLocation] = None
         
     def retrieve(self, key):
         '''
@@ -103,11 +96,15 @@ class HashTable:
         Fill this in.
         '''
         indexLocation = self._hash_mod(key)
-        if not self.storage[indexLocation]:
+        if self.storage[indexLocation] is not None:
+            while self.storage[indexLocation].next is not None:
+                if self.storage[indexLocation].key is key:
+                    return self.storage[indexLocation].value
+                else:
+                    self.storage[indexLocation].next = self.storage[indexLocation].next.next
+        else:
             print("No such key")
-            return
-        indexLocation = self._hash_mod(key)
-        return self.storage[indexLocation]
+            return None
 
 
     def resize(self):
@@ -119,50 +116,52 @@ class HashTable:
         '''
         self.capacity *= 2
         new_storage = [None] * self.capacity
-        for i in range(self.count):
-            new_storage[i] = self.storage[i]
+        for i in self.storage:
+            if i is not None:
+                newIndex = self._hash_mod(i.key)
+                new_storage[newIndex] = LinkedPair(i.key, i.value)
         self.storage = new_storage
 
-hashT = HashTable(2)
-print(hashT.storage)
-hashT.insert("gabba", "haha")
-print(hashT.storage)
-hashT.insert("zylophone", "lol")
-print(hashT.storage)
-print("Key return: ", hashT.retrieve("gabba"))
-print("Key return: ", hashT.retrieve("zylophone"))
-print(hashT.storage)
-hashT.remove("gabba")
-print(hashT.storage)
-hashT.resize()
-print(hashT.storage)
-print("Key return: ", hashT.retrieve("gabba"))
-print("Key return: ", hashT.retrieve("zylophone"))
+# hashT = HashTable(2)
+# print(hashT.storage)
+# hashT.insert("gabba", "haha")
+# print(hashT.storage)
+# hashT.insert("zylophone", "lol")
+# print(hashT.storage)
+# print("Key return: ", hashT.retrieve("gabba"))
+# print("Key return: ", hashT.retrieve("zylophone"))
+# print(hashT.storage)
+# hashT.remove("gabba")
+# print(hashT.storage)
+# hashT.resize()
+# print(hashT.storage)
+# print("Key return: ", hashT.retrieve("gabba"))
+# print("Key return: ", hashT.retrieve("zylophone"))
 
-# if __name__ == "__main__":
-#     ht = HashTable(2)
-#     print("storage: ", ht.storage)
-#     ht.insert("line_1", "Tiny hash table")
-#     ht.insert("line_2", "Filled beyond capacity")
-#     ht.insert("line_3", "Linked list saves the day!")
+if __name__ == "__main__":
+    ht = HashTable(2)
+    print("storage: ", ht.storage)
+    ht.insert("line_1", "Tiny hash table")
+    ht.insert("line_2", "Filled beyond capacity")
+    ht.insert("line_3", "Linked list saves the day!")
 
-#     print("")
+    print("")
 
-#     # Test storing beyond capacity
-#     print(ht.retrieve("line_1"))
-#     print(ht.retrieve("line_2"))
-#     print(ht.retrieve("line_3"))
+    # Test storing beyond capacity
+    print(ht.retrieve("line_1"))
+    print(ht.retrieve("line_2"))
+    print(ht.retrieve("line_3"))
 
-#     # Test resizing
-#     old_capacity = len(ht.storage)
-#     ht.resize()
-#     new_capacity = len(ht.storage)
+    # Test resizing
+    old_capacity = len(ht.storage)
+    ht.resize()
+    new_capacity = len(ht.storage)
 
-#     print(f"\nResized from {old_capacity} to {new_capacity}.\n")
+    print(f"\nResized from {old_capacity} to {new_capacity}.\n")
 
-#     # Test if data intact after resizing
-#     print(ht.retrieve("line_1"))
-#     print(ht.retrieve("line_2"))
-#     print(ht.retrieve("line_3"))
+    # Test if data intact after resizing
+    print(ht.retrieve("line_1"))
+    print(ht.retrieve("line_2"))
+    print(ht.retrieve("line_3"))
 
-#     print("")
+    print("")
